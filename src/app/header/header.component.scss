@@ -1,0 +1,17 @@
+nav {
+    background: #2D2E2E;
+    display:flex;
+    flex-direction: row;
+        li {
+            list-style: none;
+            a {
+                color: #fff;
+                padding: 20px;
+                display: block;
+                &.activated{
+                    background-color: #00a8ff;
+                }
+            }                   
+        }
+    
+}
