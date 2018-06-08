@@ -1,6 +1,6 @@
 import { Component, OnInit, Pipe } from '@angular/core';
 import { parseIntAutoRadix } from '@angular/common/src/i18n/format_number';
-
+import * as moment from 'moment';
 @Component({
   selector: 'app-pace',
   templateUrl: './pace.component.html',
@@ -32,14 +32,9 @@ export class PaceComponent implements OnInit {
   };
   eventTimeCalc(event: any) {
     var totalSeconds = (parseInt(this.minutes)*60 + parseInt(this.seconds));
-    this.eventTime = this.secondsToTime(totalSeconds*event.target.value);
+   
+    this.eventTime = moment().startOf("day").seconds(totalSeconds*event.target.value).format('HH:mm:ss');
   };
-
-  secondsToTime(value: number): string {
-    const minutes: number = Math.floor(value / 60);
-    const hours: number = Math.floor(minutes / 60);
-    return hours + ":" + (minutes - hours * 60) + ':' + (value - minutes * 60);
-  }
 
   constructor() {
   }
