@@ -1,16 +1,16 @@
 <h1>{{pacetitle}}</h1>
 <div class="pace-wrapper">
-    <input type="text" (change)="eventTimeCalc($event)" [(ngModel)]="minutes" placeholder="minutter">
-    <input type="text" (change)="eventTimeCalc($event)" [(ngModel)]="seconds" placeholder="sekunder">
+    <input type="text" (change)="eventTimeCalc($event);" [(ngModel)]="minutes" placeholder="minutter">
+    <input type="text" (change)="eventTimeCalc($event);" [(ngModel)]="seconds" placeholder="sekunder">
   </div>
 
   <div>
     Selected pace was: {{minutes}}:{{seconds}}
   </div>
   <div>
-    The finishing time for the {{selectedEvent}} event will be <span>{{eventTime}}</span> 
+    The finishing time for the {{selectedValue}} event will be <span>{{eventTime}}</span> 
     <form>
-        <select [(ngModel)]="selectedValue" name="first" (change)="selectChangeHandler($event); eventTimeCalc($event)" placeholder="Events" >
+        <select (change)="selectChangeHandler($event); eventTimeCalc($event)" placeholder="Events" >
           <option *ngFor="let event of events" [value]="event.value">
             {{ event.viewValue }}
           </option>

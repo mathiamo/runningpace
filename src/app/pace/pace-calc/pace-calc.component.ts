@@ -11,33 +11,37 @@ export class PaceCalcComponent implements OnInit {
   minutes: "0";
   seconds: "0";
   events = [
-    { value: 1.5, viewValue: '1500M' },
-    { value: 3, viewValue: '3km' },
-    { value: 5, viewValue: '5km' },
-    { value: 10, viewValue: '10km' },
-    { value: 21, viewValue: 'Halvmaraton' },
-    { value: 42, viewValue: 'Maraton' },
+    { value: 400, viewValue: '400M' },
+    { value: 800, viewValue: '800M' },
+    { value: 1500, viewValue: '1500M' },
+    { value: 1609, viewValue: '1609M' },
+    { value: 3000, viewValue: '3km' },
+    { value: 5000, viewValue: '5km' },
+    { value: 10000, viewValue: '10km' },
+    { value: 21097.5, viewValue: 'Halvmaraton' },
+    { value: 42195, viewValue: 'Maraton' },
    
   ];
-  selectedEvent = "";
+  selectedEvent: number= 400;
   eventTime = ""
-  selectedValue: number = this.events[0].value;
+  selectedValue = this.events[0].viewValue;
   
   selectChangeHandler(event: any) {
     //update the ui
-    this.selectedEvent = event.target.value;
+      console.log(event.target.value);
+        this.selectedEvent = event.target.value;
   };
   eventTimeCalc(event: any) {
+    console.log(event);
     var totalSeconds = (parseInt(this.minutes)*60 + parseInt(this.seconds));
    
-    this.eventTime = moment().startOf("day").seconds(totalSeconds*event.target.value).format('HH:mm:ss');
+    this.eventTime = moment().startOf("day").seconds(totalSeconds*(this.selectedEvent/1000)).format('HH:mm:ss');
   };
 
   constructor() {
   }
 
   ngOnInit() {
-    this.selectedEvent;
   }
 
 }
