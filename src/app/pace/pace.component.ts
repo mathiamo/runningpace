@@ -24,7 +24,7 @@ export class PaceComponent implements OnInit {
   ];
   selectedEvent = "";
   eventTime = ""
-  selectedValue: number = this.events[1].value;
+  selectedValue: number = this.events[0].value;
   
   selectChangeHandler(event: any) {
     //update the ui
@@ -40,7 +40,7 @@ export class PaceComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.selectedEvent;
   }
 
 }

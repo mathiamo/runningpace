@@ -10,7 +10,7 @@
   <div>
     The finishing time for the {{selectedEvent}} event will be <span>{{eventTime}}</span> 
     <form>
-        <select [(ngModel)]="selectedValue" (change)="selectChangeHandler($event); eventTimeCalc($event)" placeholder="Events" >
+        <select [(ngModel)]="selectedValue" name="first" (change)="selectChangeHandler($event); eventTimeCalc($event)" placeholder="Events" >
           <option *ngFor="let event of events" [value]="event.value">
             {{ event.viewValue }}
           </option>
