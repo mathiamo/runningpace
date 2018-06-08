@@ -22,13 +22,13 @@ export class PaceCalcComponent implements OnInit {
     { value: 42195, viewValue: 'Maraton' },
    
   ];
-  selectedEvent: number= 400;
+  selectedEvent = 400;
   eventTime = ""
   selectedValue = this.events[0].viewValue;
   
   selectChangeHandler(event: any) {
     //update the ui
-      console.log(event.target.value);
+
         this.selectedEvent = event.target.value;
   };
   eventTimeCalc(event: any) {
