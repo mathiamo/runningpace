@@ -9,13 +9,15 @@ import { environment } from '../environments/environment';
 import { PaceComponent } from './pace/pace.component';
 import { HeaderComponent } from './header/header.component';
 import { HomeComponent } from './home/home.component';
+import { PaceCalcComponent } from './pace/pace-calc/pace-calc.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PaceComponent,
     HeaderComponent,
-    HomeComponent
+    HomeComponent,
+    PaceCalcComponent
   ],
   imports: [
     BrowserModule,
