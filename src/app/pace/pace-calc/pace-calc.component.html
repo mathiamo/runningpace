@@ -4,9 +4,10 @@
     <input type="text" (change)="eventTimeCalc($event);" [(ngModel)]="seconds" placeholder="sekunder">
   </div>
 
-  <div>
+  <div *ngIf="paceSelected; else noPaceSelected">
     Selected pace was: {{minutes}}:{{seconds}}
   </div>
+  <ng-template #noPaceSelected><div>No pace was selected</div></ng-template>
   <div>
     The finishing time for the {{selectedValue}} event will be <span>{{eventTime}}</span> 
     <form>

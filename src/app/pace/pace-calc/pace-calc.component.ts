@@ -8,13 +8,14 @@ import * as moment from 'moment';
 
 export class PaceCalcComponent implements OnInit {
   pacetitle = "Pace Calculator";
-  minutes: "0";
-  seconds: "0";
+  minutes: "";
+  seconds: "";
+  paceSelected : boolean =  false;
   events = [
     { value: 400, viewValue: '400M' },
     { value: 800, viewValue: '800M' },
     { value: 1500, viewValue: '1500M' },
-    { value: 1609, viewValue: '1609M' },
+    { value: 1609, viewValue: '1Mile' },
     { value: 3000, viewValue: '3km' },
     { value: 5000, viewValue: '5km' },
     { value: 10000, viewValue: '10km' },
@@ -27,17 +28,14 @@ export class PaceCalcComponent implements OnInit {
   selectedValue = this.events[0].viewValue;
   
   selectChangeHandler(event: any) {
-    //update the ui
-
         this.selectedEvent = event.target.value;
   };
   eventTimeCalc(event: any) {
-    console.log(event);
     var totalSeconds = (parseInt(this.minutes)*60 + parseInt(this.seconds));
    
     this.eventTime = moment().startOf("day").seconds(totalSeconds*(this.selectedEvent/1000)).format('HH:mm:ss');
+    this.paceSelected = true;
   };
-
   constructor() {
   }
 
