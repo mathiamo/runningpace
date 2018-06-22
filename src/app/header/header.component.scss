@@ -1,10 +1,12 @@
-nav {
+.primary-nav{
     background: #2D2E2E;
-    display:flex;
-    flex-direction: row;
-    & :first-child{
-        padding-left: 10%;
-    }
+    nav {
+        
+        display:flex;
+        flex-direction: row;
+        & :first-child{
+            padding-left: 10%;
+        }
         li {
             list-style: none;
             a {
@@ -16,5 +18,5 @@ nav {
                 }
             }                   
         }
-    
+    }
 }

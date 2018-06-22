@@ -1,20 +1,24 @@
 <h1>{{pacetitle}}</h1>
 <div class="pace-wrapper">
-    <input type="text" (change)="eventTimeCalc($event);" [(ngModel)]="minutes" placeholder="minutter">
-    <input type="text" (change)="eventTimeCalc($event);" [(ngModel)]="seconds" placeholder="sekunder">
-  </div>
+    <input class="form-control" type="number" (change)="eventTimeCalc();" [(ngModel)]="minutes" placeholder="minutter">
+    <input class="form-control" type="number" (change)="eventTimeCalc();" [(ngModel)]="seconds" placeholder="sekunder">
+</div>
 
-  <div *ngIf="paceSelected; else noPaceSelected">
+<div *ngIf="paceSelected; else noPaceSelected">
     Selected pace was: {{minutes}}:{{seconds}}
-  </div>
-  <ng-template #noPaceSelected><div>No pace was selected</div></ng-template>
-  <div>
-    The finishing time for the {{selectedValue}} event will be <span>{{eventTime}}</span> 
-    <form>
-        <select (change)="selectChangeHandler($event); eventTimeCalc($event)" placeholder="Events" >
-          <option *ngFor="let event of events" [value]="event.value">
-            {{ event.viewValue }}
-          </option>
-        </select>
-      </form>
-  </div>
+</div>
+<ng-template #noPaceSelected>
+    <div>No pace was selected</div>
+</ng-template>
+
+<form class="race-form">
+    <select class="custom-select" (change)="selectChangeHandler($event); eventTimeCalc();" placeholder="Events">
+        <option *ngFor="let event of events" [value]="event.raceLength">
+            {{ event.raceName }}
+        </option>
+    </select>
+</form>
+<div>
+    The finishing time for the {{selectedValue}} event will be <span style="background-color: orange">{{eventTime}}</span>
+</div>
+<button (click)="onGetAthlete()">HentStravaBruker</button>

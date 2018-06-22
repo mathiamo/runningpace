@@ -10,7 +10,9 @@ import { PaceComponent } from './pace/pace.component';
 import { HeaderComponent } from './header/header.component';
 import { HomeComponent } from './home/home.component';
 import { PaceCalcComponent } from './pace/pace-calc/pace-calc.component';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { StravaService } from './strava.service';
+import { HttpClientModule } from '@angular/common/http';
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,9 +26,11 @@ import { PaceCalcComponent } from './pace/pace-calc/pace-calc.component';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
   ],
-  providers: [],
+  providers: [StravaService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
