@@ -13,6 +13,7 @@ import { PaceCalcComponent } from './pace/pace-calc/pace-calc.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StravaService } from './strava.service';
 import { HttpClientModule } from '@angular/common/http';
+import { HttpModule } from '@angular/http';
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,6 +29,7 @@ import { HttpClientModule } from '@angular/common/http';
     FormsModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    HttpModule,
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [StravaService],

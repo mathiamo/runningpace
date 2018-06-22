@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { RunningEvent } from '../runningEvent.model';
 import { StravaService } from '../../strava.service';
+import { Http } from '@angular/http';
 
 @Component({
   selector: 'app-pace-calc',
@@ -9,14 +10,19 @@ import { StravaService } from '../../strava.service';
   styleUrls: ['./pace-calc.component.scss']
 })
 
-export class PaceCalcComponent {
+export class PaceCalcComponent implements OnInit{
   pacetitle = 'Pace Calculator';
   minutes: '';
   seconds: '';
   eventTime = '';
   paceSelected = false;
+  errorMessage: string;
+  athlete: any;
+  stats: any;
+  friends: any;
+  leaderBoard: any;
 
-  constructor(private stravaService: StravaService){}
+  constructor(private http: Http, private stravaService: StravaService) {}
 
   events: RunningEvent[] = [
     new RunningEvent('200M', 200),
@@ -43,9 +49,36 @@ export class PaceCalcComponent {
     this.eventTime = moment().startOf('day').seconds(totalSeconds * (this.selectedEvent / 1000)).format('HH:mm:ss');
     this.paceSelected = true;
   }
-  onGetAthlete() {
-    this.stravaService.getAthlete();
-    console.log(this.stravaService.getAthlete());
+  ngOnInit() {
+    this.getAthlete();
+    this.getLeaderBoard();
+  }
+  getLeaderBoard() {
+    this.stravaService.getSegmentleaderboard(16282037)
+    .subscribe(
+      leaderBoard =>  {
+        this.leaderBoard = leaderBoard;
+      },
+      error => this.errorMessage = <any>error);
+}
+
+  getAthlete() {
+    this.stravaService.getAthlete()
+                      .subscribe(
+                        athlete =>  {
+                          this.athlete = athlete;
+                          this.getStats(athlete.id);
+                        },
+                        error => this.errorMessage = <any>error);
+  }
+
+  getStats(id) {
+    return new Promise((resolve, reject) => {
+      this.stravaService.getStats(id)
+                      .subscribe(
+                        stats => this.stats = stats,
+                        error => this.errorMessage = <any>error);
+    });
   }
 }
 

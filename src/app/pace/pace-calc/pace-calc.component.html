@@ -21,4 +21,15 @@
 <div>
     The finishing time for the {{selectedValue}} event will be <span style="background-color: orange">{{eventTime}}</span>
 </div>
-<button (click)="onGetAthlete()">HentStravaBruker</button>
+<div class="container">
+    <h1>Strava api</h1>
+    <p>
+      <img src={{athlete?.profile_medium}} >
+    </p>
+
+    <p>
+      Name: {{ athlete?.firstname }} {{ athlete?.lastname}} <br />
+      {{ stats?.all_ride_totals.count }}
+    </p>
+    <div>{{leaderBoard?.entries[1].moving_time}}</div>
+  </div>

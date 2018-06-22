@@ -1,79 +1,74 @@
+
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { map, catchError } from 'rxjs/operators';
-
+import { Http, Response, Headers } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/map';
 @Injectable()
 export class StravaService {
     private apiURL = 'https://www.strava.com/api/v3/';
     private token = '9d5b06100923f8e94627f0976f877f504aef9be8';
-    constructor(private http: HttpClient) {}
+    constructor (private http: Http) {}
 
-    createAuthorizationHeader(headers: HttpHeaders) {
-        headers.append('Authorization', 'Bearer ' + this.token);
-    }
+  createAuthorizationHeader(headers: Headers) {
+    headers.append('Authorization', 'Bearer ' + this.token);
+  }
 
-    getAthlete() {
-        const url = `${this.apiURL}/athlete`;
-        const headers = new HttpHeaders();
+  getAthlete(): Observable<any> {
+    const url = `${this.apiURL}/athlete`;
+    const headers = new Headers();
+    this.createAuthorizationHeader(headers);
+
+    return this.http.get(url, { headers: headers })
+                    .map(this.extractData)
+                    .catch(this.handleError);
+  }
+
+  getStats(id: number): Observable<any> {
+    const url = `${this.apiURL}/athletes/${id}/stats`;
+    const headers = new Headers();
+    this.createAuthorizationHeader(headers);
+
+    return this.http.get(url, { headers: headers })
+                    .map(this.extractData)
+                    .catch(this.handleError);
+  }
+
+    getSegmentleaderboard(id: number): Observable<any> {
+        const url = `${this.apiURL}/segments/${id}/leaderboard`;
+        const headers = new Headers();
         this.createAuthorizationHeader(headers);
+        return this.http.get(url, { headers: headers })
+        .map(this.extractData)
+        .catch(this.handleError);
 
-        return this.http
-            .get(url, { headers: headers })
-            .pipe(map(this.extractData));
     }
-
-    getStats(id: number) {
-        const url = `${this.apiURL}/athletes/${id}/stats`;
-        const headers = new HttpHeaders();
+    getGear(id: number): Observable<any> {
+        const url = `${this.apiURL}/gear/${id}`;
+        const headers = new Headers();
         this.createAuthorizationHeader(headers);
+        return this.http.get(url, { headers: headers })
+        .map(this.extractData)
+        .catch(this.handleError);
 
-        return this.http
-            .get(url, { headers: headers })
-            .pipe(map(this.extractData))
-            .subscribe(
-                data => console.log('success', data),
-                error => console.log('oops', this.handleError)
-              );
+    }
+  private extractData(res: Response) {
+    const body = res.json();
+    return body || { };
+  }
+
+  private handleError (error: Response | any) {
+    let errMsg: string;
+
+    if (error instanceof Response) {
+      const body = error.json() || '';
+      const err = body.error || JSON.stringify(body);
+      errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
+    } else {
+      errMsg = error.message ? error.message : error.toString();
     }
 
-    getFriends(id: number) {
-        const url = `${this.apiURL}/athletes/${id}/friends`;
-        const headers = new HttpHeaders();
-        this.createAuthorizationHeader(headers);
-
-        return this.http
-            .get(
-                url,
-                { headers: headers }
-            )
-            .pipe(
-                map(this.extractData)
-            )
-            .subscribe(
-                data => console.log('success', data),
-                error => console.log('oops', this.handleError)
-              );
-    }
-
-    private extractData(res: HttpResponse<JSON>) {
-        const body = res.body;
-        return body || {};
-    }
-
-    private handleError(error: HttpResponse<JSON> | any) {
-        let errMsg: string;
-
-        if (error instanceof catchError) {
-            const body = error.error || '';
-            const err = body.error || JSON.stringify(body);
-            errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
-        } else {
-            errMsg = error.message ? error.message : error.toString();
-        }
-
-        console.error(errMsg);
-        return Observable.throw(errMsg);
-    }
+    console.error(errMsg);
+    return Observable.throw(errMsg);
+  }
 }
