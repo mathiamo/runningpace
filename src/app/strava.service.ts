@@ -7,7 +7,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class StravaService {
     private apiURL = 'https://www.strava.com/api/v3/';
-    private token = '9d5b06100923f8e94627f0976f877f504aef9be8';
+    private token = 'token';
     constructor (private http: Http) {}
 
   createAuthorizationHeader(headers: Headers) {
