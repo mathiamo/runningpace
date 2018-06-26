@@ -1,14 +1,15 @@
 <div class="container">
-    <h1>Strava api</h1>
+    <h1>Strava Leking</h1>
     <p>
         <img src={{athlete?.profile_medium}}>
     </p>
 
-    <p>
+    <div>
         Name: {{ athlete?.firstname }} {{ athlete?.lastname}}
         <br /> Totalt antall løpeturer {{ stats?.all_run_totals.count }}
         <br /> Totalt antall kilometer løpt {{ stats?.all_run_totals.distance/1000 }}
-    </p>
+        <div *ngFor="let shoe of athlete?.shoes">{{shoe.name}} har blitt brukt {{shoe.distance/1000}}km</div>
+    </div>
     <h3>Grefsenkollen tider</h3>
     <div>
         <div class="col-md-12">
@@ -17,5 +18,5 @@
               </div>
         </div>
     </div>
-    <!-- <div *ngFor="let effort of efforts">{{effort.elapsed_time}} </div> -->
+
 </div>

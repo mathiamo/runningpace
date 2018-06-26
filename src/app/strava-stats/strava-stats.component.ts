@@ -17,6 +17,12 @@ export class StravaStatsComponent implements OnInit {
     lineChartData = [];
     lineChartLabels = [];
     chart = [];
+    shoeName: string;
+    shoeDistance: number;
+    shoes = [
+
+    ];
+
     public lineChartOptions: any = {
         responsive: true
     };
@@ -65,7 +71,6 @@ export class StravaStatsComponent implements OnInit {
     ngOnInit() {
         this.getAthlete();
         this.getEfforts();
-
     }
 
     getEfforts() {
@@ -73,7 +78,7 @@ export class StravaStatsComponent implements OnInit {
             this.efforts = this.sortByProp(efforts, 'start_date');
             efforts.map(effort => {
                 this.effort.push(this.toMoment(effort.elapsed_time));
-                this.lineChartLabels.push(effort.start_date);
+                this.lineChartLabels.push(this.toMoment(effort.elapsed_time));
                 this.chart = new Chart('canvas', {
                     type: 'line',
                     data: {
@@ -87,6 +92,7 @@ export class StravaStatsComponent implements OnInit {
                       ]
                     },
                     options: {
+                        events: [],
                       legend: {
                         display: false
                       },
@@ -131,6 +137,7 @@ export class StravaStatsComponent implements OnInit {
                 error => (this.errorMessage = <any>error)
             );
     }
+
     toMoment(seconds) {
         return moment.utc(seconds * 1000).format('mm:ss');
     }
