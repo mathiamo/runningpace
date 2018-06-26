@@ -1,8 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import * as moment from 'moment';
 import { RunningEvent } from '../runningEvent.model';
-import { StravaService } from '../../strava.service';
-import { Http } from '@angular/http';
 
 @Component({
   selector: 'app-pace-calc',
@@ -10,19 +8,15 @@ import { Http } from '@angular/http';
   styleUrls: ['./pace-calc.component.scss']
 })
 
-export class PaceCalcComponent implements OnInit{
+export class PaceCalcComponent {
   pacetitle = 'Pace Calculator';
   minutes: '';
   seconds: '';
   eventTime = '';
   paceSelected = false;
-  errorMessage: string;
-  athlete: any;
-  stats: any;
-  friends: any;
-  leaderBoard: any;
 
-  constructor(private http: Http, private stravaService: StravaService) {}
+
+  constructor() {}
 
   events: RunningEvent[] = [
     new RunningEvent('200M', 200),
@@ -44,41 +38,10 @@ export class PaceCalcComponent implements OnInit{
     this.selectedValue = event.target.selectedOptions[0].label;
   }
   eventTimeCalc() {
-    // tslint:disable-next-line:radix
-    const totalSeconds = (parseInt(this.minutes) * 60 + parseInt(this.seconds));
+    const totalSeconds = (parseInt(this.minutes, 10) * 60 + parseInt(this.seconds, 10));
     this.eventTime = moment().startOf('day').seconds(totalSeconds * (this.selectedEvent / 1000)).format('HH:mm:ss');
     this.paceSelected = true;
   }
-  ngOnInit() {
-    this.getAthlete();
-    this.getLeaderBoard();
-  }
-  getLeaderBoard() {
-    this.stravaService.getSegmentleaderboard(16282037)
-    .subscribe(
-      leaderBoard =>  {
-        this.leaderBoard = leaderBoard;
-      },
-      error => this.errorMessage = <any>error);
-}
 
-  getAthlete() {
-    this.stravaService.getAthlete()
-                      .subscribe(
-                        athlete =>  {
-                          this.athlete = athlete;
-                          this.getStats(athlete.id);
-                        },
-                        error => this.errorMessage = <any>error);
-  }
-
-  getStats(id) {
-    return new Promise((resolve, reject) => {
-      this.stravaService.getStats(id)
-                      .subscribe(
-                        stats => this.stats = stats,
-                        error => this.errorMessage = <any>error);
-    });
-  }
 }
 

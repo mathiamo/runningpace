@@ -14,14 +14,18 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StravaService } from './strava.service';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
+import { StravaStatsComponent } from './strava-stats/strava-stats.component';
+import { ChartsModule } from 'ng4-charts';
+
 @NgModule({
   declarations: [
     AppComponent,
     PaceComponent,
     HeaderComponent,
     HomeComponent,
-    PaceCalcComponent
-  ],
+    PaceCalcComponent,
+    StravaStatsComponent
+],
   imports: [
     NgbModule.forRoot(),
     BrowserModule,
@@ -30,6 +34,7 @@ import { HttpModule } from '@angular/http';
     BrowserAnimationsModule,
     HttpClientModule,
     HttpModule,
+    ChartsModule,
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [StravaService],
