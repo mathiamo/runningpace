@@ -15,7 +15,7 @@ import { StravaService } from './strava.service';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
 import { StravaStatsComponent } from './strava-stats/strava-stats.component';
-import { ChartsModule } from 'ng4-charts';
+import { ChartsModule } from 'ng4-charts/ng4-charts';
 
 @NgModule({
   declarations: [

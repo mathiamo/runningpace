@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../environments/environment';
 @Injectable()
 export class StravaService {
-    private apiURL = 'https://www.strava.com/api/v3/';
+    private apiURL = 'https://www.strava.com/api/v3';
     private token = environment.stravaApiToken;
     constructor(private httpClient: HttpClient) {}
 

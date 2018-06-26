@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { StravaService } from '../strava.service';
 import * as moment from 'moment';
+import { Chart } from 'chart.js';
 @Component({
     selector: 'app-strava-stats',
     templateUrl: './strava-stats.component.html',
@@ -15,6 +16,7 @@ export class StravaStatsComponent implements OnInit {
     effort = [];
     lineChartData = [];
     lineChartLabels = [];
+    chart = [];
     public lineChartOptions: any = {
         responsive: true
     };
@@ -63,25 +65,55 @@ export class StravaStatsComponent implements OnInit {
     ngOnInit() {
         this.getAthlete();
         this.getEfforts();
-        this.fetchdata();
+
     }
-    fetchdata() {
-        this.lineChartData = [
-            { data: this.effort, label: this.lineChartLabels }
-        ];
-    }
+
     getEfforts() {
         this.stravaService.getSegmentEfforts(660072).subscribe(efforts => {
             this.efforts = this.sortByProp(efforts, 'start_date');
-            efforts.forEach(effort => {
-                this.effort.push(effort.elapsed_time);
-                this.lineChartLabels.push(effort.name);
+            efforts.map(effort => {
+                this.effort.push(this.toMoment(effort.elapsed_time));
+                this.lineChartLabels.push(effort.start_date);
+                this.chart = new Chart('canvas', {
+                    type: 'line',
+                    data: {
+                      labels: this.lineChartLabels,
+                      datasets: [
+                        {
+                          data: this.effort,
+                          borderColor: '#3cba9f',
+                          fill: false
+                        }
+                      ]
+                    },
+                    options: {
+                      legend: {
+                        display: false
+                      },
+                      scales: {
+                        xAxes: [{
+                            display: true
+                          }],
+
+                        yAxes: [{
+                            type: 'time',
+                            time: {
+                              parser: 'mm:ss',
+                              unit: 'second',
+                              unitStepSize: 20,
+                              displayFormats: {
+                                'second': 'mm:ss',
+                                'minute': 'mm:ss',
+                              },
+                              min: '04:20',
+                              max: '10:30'
+                          }}],
+                      }
+                    }
+                  });
             });
-            console.log(this.effort);
-            console.log(efforts);
-            console.log(this.lineChartData);
-            console.log(this.lineChartLabels);
         }, error => (this.errorMessage = <any>error));
+
     }
 
     getAthlete() {
@@ -100,7 +132,7 @@ export class StravaStatsComponent implements OnInit {
             );
     }
     toMoment(seconds) {
-        return moment.utc(seconds * 1000).format('HH:mm:ss');
+        return moment.utc(seconds * 1000).format('mm:ss');
     }
     sortByProp(array, prop: string) {
         array.sort((a, b) => a[prop] > b[prop] ? 1 : a[prop] === b[prop] ? 0 : -1);

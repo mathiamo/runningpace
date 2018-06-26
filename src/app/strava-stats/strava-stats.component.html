@@ -12,11 +12,9 @@
     <h3>Grefsenkollen tider</h3>
     <div>
         <div class="col-md-12">
-            <div style="display: block;">
-                <canvas baseChart width="400" height="400" *ngIf="lineChartData" [datasets]= "lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions"
-                    [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType" (chartHover)="chartHovered($event)"
-                    (chartClick)="chartClicked($event)"></canvas>
-            </div>
+            <div [hidden]="!chart">
+                <canvas id="canvas" width="400" height="500">{{ chart }}</canvas>
+              </div>
         </div>
     </div>
     <!-- <div *ngFor="let effort of efforts">{{effort.elapsed_time}} </div> -->
